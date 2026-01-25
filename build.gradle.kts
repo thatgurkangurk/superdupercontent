@@ -1,9 +1,16 @@
+import me.modmuss50.mpp.ReleaseType
+import org.jetbrains.changelog.Changelog
+import org.jetbrains.changelog.ChangelogSectionUrlBuilder
+import org.jetbrains.changelog.date
+
 plugins {
     id("java-library")
     id("maven-publish")
     id("net.neoforged.moddev") version "2.0.140"
     id("dev.yumi.gradle.licenser") version "2.1.1"
     id("idea")
+    id("me.modmuss50.mod-publish-plugin") version "1.1.0"
+    id("org.jetbrains.changelog") version "2.5.0"
 }
 
 tasks.named<Wrapper>("wrapper").configure {
@@ -19,6 +26,52 @@ repositories {
 
 base {
     archivesName.set(project.extra["mod_id"]!! as String)
+}
+
+changelog {
+    version = property("mod_version")!! as String
+    path = file("CHANGELOG.md").canonicalPath
+    header = provider { "[${version.get()}] - ${date()}" }
+    headerParserRegex = """(\d+\.\d+\.\d+(?:-[\w\d]+)?)""".toRegex()
+    itemPrefix = "-"
+    keepUnreleasedSection = true
+    unreleasedTerm = "[Unreleased]"
+    groups = listOf("Added", "Changed", "Removed", "Fixed")
+    lineSeparator = "\n"
+    combinePreReleases = true
+    sectionUrlBuilder =
+        ChangelogSectionUrlBuilder { repositoryUrl, currentVersion, previousVersion, isUnreleased -> "foo" }
+    outputFile = file("release-note.txt")
+}
+
+fun getChangelog(version: String): String {
+    return changelog.renderItem(
+        changelog.get(version).withSummary(false),
+        Changelog.OutputType.MARKDOWN
+    )
+}
+
+publishMods {
+    changelog = providers.provider { getChangelog(project.version.toString()) }
+    type = ReleaseType.STABLE
+
+    file.set(tasks.jar.get().archiveFile)
+    modLoaders.add("neoforge")
+
+    modrinth {
+        announcementTitle.set(project.version.toString())
+        accessToken.set(providers.environmentVariable("MODRINTH_TOKEN"))
+        projectId.set("super-duper-content")
+        minecraftVersions.add(project.extra["minecraft_version"]!! as String)
+    }
+
+    github {
+        accessToken.set(providers.environmentVariable("GITHUB_TOKEN"))
+        repository.set("thatgurkangurk/superdupercontent")
+        commitish.set("main")
+    }
+
+    dryRun = true
 }
 
 license {
