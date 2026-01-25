@@ -10,6 +10,7 @@ package me.gurkz.superdupercontent;
 
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import me.gurkz.superdupercontent.item.ModItems;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -37,6 +38,8 @@ public class SuperDuperContent {
 
     public SuperDuperContent(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
+
+        ModItems.register();
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

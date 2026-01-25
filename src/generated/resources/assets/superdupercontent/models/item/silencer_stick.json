@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "superdupercontent:item/silencer_stick"
+  }
+}
