@@ -1,6 +1,6 @@
-// 1.21.1	2026-01-25T17:46:24.2965655	Registrate Provider for superdupercontent [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (enchantments), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.21.1	2026-01-25T17:57:00.8080533	Registrate Provider for superdupercontent [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (enchantments), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 8f00c08dc7584c39170d3dc09be26d18483d2d59 assets/superdupercontent/lang/en_ud.json
 d3e5d6d713e44e4c5f77415c793dd69c56195079 assets/superdupercontent/lang/en_us.json
 51dab38a25cfcd4892cb1ef631bf35c52dc88a42 assets/superdupercontent/models/item/silencer_stick.json
 879f75601740104c243d47e35f7ce51c666e553f data/superdupercontent/advancement/recipes/tools/silencer_stick.json
-50518f962b88a2f0f11013832defb5a2669e7f61 data/superdupercontent/recipe/silencer_stick.json
+b553e7b7eaf354075126b9bc5391568150677181 data/superdupercontent/recipe/silencer_stick.json

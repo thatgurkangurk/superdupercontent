@@ -10,7 +10,11 @@
 
 ### Fixed
 
-## [0.1.0] - 2026-01-25
+## [0.1.1] - 2026-01-25
+
+- tweak the silencer stick recipe
+
+## 0.1.0 - 2026-01-25
 
 - Leashable villagers 🎉
 - disable farmland trampling when you have feather falling

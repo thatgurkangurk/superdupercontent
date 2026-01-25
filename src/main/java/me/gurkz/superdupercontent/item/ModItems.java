@@ -15,6 +15,7 @@ import me.gurkz.superdupercontent.SuperDuperContent;
 import me.gurkz.superdupercontent.item.custom.SilencerStickItem;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 
 public class ModItems {
@@ -25,10 +26,11 @@ public class ModItems {
             .properties((properties -> properties.durability(32)))
             .recipe((ctx, provider) -> {
                 ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ctx.get())
-                        .pattern("A  ")
+                        .pattern("W  ")
                         .pattern(" A ")
                         .pattern("  A")
                         .define('A', Items.AMETHYST_SHARD)
+                        .define('W', ItemTags.WOOL)
                         .unlockedBy("has_amethyst", RegistrateRecipeProvider.has(Items.AMETHYST_SHARD)).save(provider);
             })
             .model((ctx, provider) -> provider.handheld(ctx))

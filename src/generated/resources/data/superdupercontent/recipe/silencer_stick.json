@@ -4,10 +4,13 @@
   "key": {
     "A": {
       "item": "minecraft:amethyst_shard"
+    },
+    "W": {
+      "tag": "minecraft:wool"
     }
   },
   "pattern": [
-    "A  ",
+    "W  ",
     " A ",
     "  A"
   ],
