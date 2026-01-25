@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 - Leashable villagers 🎉
+- disable farmland trampling when you have feather falling
 
 ### Added
 
