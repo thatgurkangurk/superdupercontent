@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.gurkz.superdupercontent.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "LeashableVillagers"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

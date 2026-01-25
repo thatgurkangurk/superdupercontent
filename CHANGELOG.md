@@ -1,6 +1,7 @@
 # Changelog
 
 ## [Unreleased]
+- Leashable villagers 🎉
 
 ### Added
 
