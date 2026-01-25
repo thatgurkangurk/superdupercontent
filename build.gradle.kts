@@ -70,8 +70,6 @@ publishMods {
         repository.set("thatgurkangurk/superdupercontent")
         commitish.set("main")
     }
-
-    dryRun = true
 }
 
 license {
