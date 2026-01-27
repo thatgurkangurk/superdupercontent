@@ -72,6 +72,8 @@ publishMods {
         accessToken.set(providers.environmentVariable("MODRINTH_TOKEN"))
         projectId.set("super-duper-content")
         minecraftVersions.add(project.extra["minecraft_version"]!! as String)
+
+        requires("kotlin-for-forge")
     }
 
     github {
@@ -79,8 +81,6 @@ publishMods {
         repository.set("thatgurkangurk/superdupercontent")
         commitish.set("main")
     }
-
-    dryRun = true
 }
 
 license {
