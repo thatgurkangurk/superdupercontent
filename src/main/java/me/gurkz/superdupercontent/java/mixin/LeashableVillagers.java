@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package me.gurkz.superdupercontent.mixin;
+package me.gurkz.superdupercontent.java.mixin;
 
 import net.minecraft.world.entity.npc.AbstractVillager;
 import org.spongepowered.asm.mixin.Mixin;

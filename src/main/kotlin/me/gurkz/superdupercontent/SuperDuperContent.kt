@@ -1,0 +1,44 @@
+/*
+ * Copyright 2026 Gurkan
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+package me.gurkz.superdupercontent
+
+import com.tterrag.registrate.Registrate
+import com.tterrag.registrate.util.nullness.NonNullSupplier
+import me.gurkz.superdupercontent.item.ModItems
+import net.neoforged.fml.common.Mod
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
+import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
+
+@Mod(SuperDuperContent.MOD_ID)
+object SuperDuperContent {
+    const val MOD_ID = "superdupercontent"
+    val LOGGER: Logger = LogManager.getLogger(MOD_ID)
+    private val REGISTRATE = NonNullSupplier.lazy { Registrate.create(MOD_ID) }
+
+    private val STACK_WALKER: StackWalker = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
+
+    @JvmStatic
+    fun registrate(): Registrate {
+        if (!STACK_WALKER.callerClass.packageName.startsWith("me.gurkz.superdupercontent")) {
+            throw UnsupportedOperationException("please don't use superdupercontent's registrate instance.")
+        }
+        return REGISTRATE.get();
+    }
+
+    init {
+        ModItems.register()
+        MOD_BUS.addListener(::onCommonSetup)
+    }
+
+    fun onCommonSetup(event: FMLCommonSetupEvent) {
+        LOGGER.info("hello from superdupercontent")
+    }
+}
