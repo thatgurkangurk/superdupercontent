@@ -5,6 +5,7 @@
 ### Added
 
 ### Changed
+- internal: kotlin rewrite
 
 ### Removed
 
