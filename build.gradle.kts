@@ -2,6 +2,8 @@ import me.modmuss50.mpp.ReleaseType
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.ChangelogSectionUrlBuilder
 import org.jetbrains.changelog.date
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("java-library")
@@ -11,6 +13,7 @@ plugins {
     id("idea")
     id("me.modmuss50.mod-publish-plugin") version "1.1.0"
     id("org.jetbrains.changelog") version "2.5.0"
+    kotlin("jvm") version "2.2.21"
 }
 
 tasks.named<Wrapper>("wrapper").configure {
@@ -22,6 +25,12 @@ group = project.extra["mod_group_id"]!!
 
 repositories {
     maven(url = uri("https://maven.ithundxr.dev/snapshots")) // Registrate
+    maven(url = uri("https://thedarkcolour.github.io/KotlinForForge/")) {
+        name = "Kotlin for Forge"
+        content {
+            includeGroup("thedarkcolour")
+        }
+    }
 }
 
 base {
@@ -85,6 +94,10 @@ license {
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+tasks.named<KotlinCompile>("compileKotlin").configure {
+    compilerOptions.jvmTarget = JvmTarget.JVM_21
+}
+
 
 neoForge {
     version = project.extra["neo_version"]!! as String
@@ -195,6 +208,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     implementation("com.tterrag.registrate:Registrate:${project.extra["registrate_version"]}")?.let { jarJar(it) }
+    implementation("thedarkcolour:kotlinforforge-neoforge:5.11.0")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

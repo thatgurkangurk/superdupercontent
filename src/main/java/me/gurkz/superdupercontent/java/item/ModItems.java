@@ -6,13 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package me.gurkz.superdupercontent.item;
+package me.gurkz.superdupercontent.java.item;
 
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import me.gurkz.superdupercontent.SuperDuperContent;
-import me.gurkz.superdupercontent.item.custom.SilencerStickItem;
+import me.gurkz.superdupercontent.java.item.custom.SilencerStickItem;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.tags.ItemTags;

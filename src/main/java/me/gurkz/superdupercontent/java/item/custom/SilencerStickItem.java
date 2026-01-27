@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package me.gurkz.superdupercontent.item.custom;
+package me.gurkz.superdupercontent.java.item.custom;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
