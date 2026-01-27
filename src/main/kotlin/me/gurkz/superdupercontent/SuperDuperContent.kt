@@ -10,16 +10,12 @@ package me.gurkz.superdupercontent
 
 import com.tterrag.registrate.Registrate
 import com.tterrag.registrate.util.nullness.NonNullSupplier
-import me.gurkz.superdupercontent.java.item.ModItems
-import net.neoforged.bus.api.SubscribeEvent
-import net.neoforged.fml.common.EventBusSubscriber
+import me.gurkz.superdupercontent.item.ModItems
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent
-import org.apache.logging.log4j.Level
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
-import java.util.function.Consumer
 
 @Mod(SuperDuperContent.MOD_ID)
 object SuperDuperContent {
