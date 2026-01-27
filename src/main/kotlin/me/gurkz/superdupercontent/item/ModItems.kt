@@ -10,7 +10,7 @@ package me.gurkz.superdupercontent.item
 
 import com.tterrag.registrate.providers.RegistrateRecipeProvider
 import me.gurkz.superdupercontent.SuperDuperContent
-import me.gurkz.superdupercontent.java.item.custom.SilencerStickItem
+import me.gurkz.superdupercontent.item.custom.SilencerStickItem
 import net.minecraft.data.recipes.RecipeCategory
 import net.minecraft.data.recipes.ShapedRecipeBuilder
 import net.minecraft.tags.ItemTags
