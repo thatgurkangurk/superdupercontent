@@ -25,10 +25,17 @@ group = project.extra["mod_group_id"]!!
 
 repositories {
     maven(url = uri("https://maven.ithundxr.dev/snapshots")) // Registrate
+    maven(url = uri("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")) // DevAuth (https://github.com/DJtheRedstoner/DevAuth)
     maven(url = uri("https://thedarkcolour.github.io/KotlinForForge/")) {
         name = "Kotlin for Forge"
         content {
             includeGroup("thedarkcolour")
+        }
+    }
+    maven(url = uri("https://api.modrinth.com/maven")) {
+        name = "Modrinth"
+        content {
+            includeGroup("maven.modrinth")
         }
     }
 }
@@ -179,10 +186,12 @@ sourceSets.main.get().resources {
 // This configuration should be used instead of 'runtimeOnly' to declare
 // a dependency that will be present for runtime testing but that is
 // "optional", meaning it will not be pulled by dependents of this mod.
+val localRuntime by configurations.creating
+
 configurations {
-    val localRuntime by creating
     runtimeClasspath.get().extendsFrom(localRuntime)
 }
+
 
 dependencies {
     // Example optional mod dependency with JEI
@@ -209,6 +218,11 @@ dependencies {
 
     implementation("com.tterrag.registrate:Registrate:${project.extra["registrate_version"]}")?.let { jarJar(it) }
     implementation("thedarkcolour:kotlinforforge-neoforge:5.11.0")
+
+    localRuntime("me.djtheredstoner:DevAuth-neoforge:1.2.2")
+    localRuntime("maven.modrinth:jei:YAcQ6elZ")
+    localRuntime("maven.modrinth:sodium:Pb3OXVqC")
+    localRuntime("maven.modrinth:resource-gamma-utils:Nx6kXJFH")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
