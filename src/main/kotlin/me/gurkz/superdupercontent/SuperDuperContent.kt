@@ -9,7 +9,6 @@
 package me.gurkz.superdupercontent
 
 import com.tterrag.registrate.Registrate
-import com.tterrag.registrate.util.nullness.NonNullSupplier
 import me.gurkz.superdupercontent.item.ModItems
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent
@@ -21,17 +20,11 @@ import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 object SuperDuperContent {
     const val MOD_ID = "superdupercontent"
     val LOGGER: Logger = LogManager.getLogger(MOD_ID)
-    private val REGISTRATE = NonNullSupplier.lazy { Registrate.create(MOD_ID) }
-
-    private val STACK_WALKER: StackWalker = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
+    private val REGISTRATE by lazy { Registrate.create(MOD_ID) }
 
     @JvmStatic
-    fun registrate(): Registrate {
-        if (!STACK_WALKER.callerClass.packageName.startsWith("me.gurkz.superdupercontent")) {
-            throw UnsupportedOperationException("please don't use superdupercontent's registrate instance.")
-        }
-        return REGISTRATE.get();
-    }
+    @JvmName("registrate")
+    internal fun registrate() = REGISTRATE
 
     init {
         ModItems.register()
