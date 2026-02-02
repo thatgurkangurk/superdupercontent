@@ -38,6 +38,7 @@ repositories {
             includeGroup("maven.modrinth")
         }
     }
+    maven { url = uri("https://www.jitpack.io") }
 }
 
 base {
@@ -98,11 +99,14 @@ license {
     include("**/*.java") // Include Java files into the file resolution.
     include("**/*.kt") // Include Java files into the file resolution.
     exclude("**/*.properties") // Exclude properties files from the file resolution.
+
+    exclude("**/me/gurkz/superdupercontent/java/lamp/**/*.java")
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 tasks.named<KotlinCompile>("compileKotlin").configure {
     compilerOptions.jvmTarget = JvmTarget.JVM_21
+    compilerOptions.javaParameters = true
 }
 
 
@@ -218,11 +222,23 @@ dependencies {
 
     implementation("com.tterrag.registrate:Registrate:${project.extra["registrate_version"]}")?.let { jarJar(it) }
     implementation("thedarkcolour:kotlinforforge-neoforge:5.11.0")
+    implementation("net.kyori:adventure-platform-neoforge:6.0.0")?.let { jarJar(it) }
+    implementation("io.github.revxrsal:lamp.common:4.0.0-rc.14")?.let {
+        jarJar(it)
+        "additionalRuntimeClasspath"(it)
+    }
+    implementation("io.github.revxrsal:lamp.brigadier:4.0.0-rc.14")?.let {
+        jarJar(it)
+        "additionalRuntimeClasspath"(it)
+    }
+
+    compileOnly("net.luckperms:api:5.4")
 
     localRuntime("me.djtheredstoner:DevAuth-neoforge:1.2.2")
     localRuntime("maven.modrinth:jei:YAcQ6elZ")
     localRuntime("maven.modrinth:sodium:Pb3OXVqC")
     localRuntime("maven.modrinth:resource-gamma-utils:Nx6kXJFH")
+    localRuntime("maven.modrinth:luckperms:dKAPoPGd") //
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
@@ -274,6 +290,7 @@ publishing {
 
 tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"  // Use the UTF-8 charset for Java compilation
+    options.compilerArgs.add("-parameters")
 }
 
 // IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
