@@ -78,7 +78,7 @@ publishMods {
     modrinth {
         announcementTitle.set(project.version.toString())
         accessToken.set(providers.environmentVariable("MODRINTH_TOKEN"))
-        projectId.set("super-duper-content")
+        projectId.set("mgakxqwY")
         minecraftVersions.add(project.extra["minecraft_version"]!! as String)
 
         requires("kotlin-for-forge")
