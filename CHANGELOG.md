@@ -3,16 +3,24 @@
 ## [Unreleased]
 
 ### Added
-- suicide command
 
 ### Changed
-- internal: no longer uses lamp
 
 ### Removed
 
 ### Fixed
 
-## [0.1.2] - 2026-02-02
+## [0.2.0] - 2026-08-08
+
+### Added
+
+- suicide command
+
+### Changed
+
+- internal: no longer uses lamp
+
+## 0.1.2 - 2026-02-02
 
 ### Added
 
