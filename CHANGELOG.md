@@ -3,8 +3,10 @@
 ## [Unreleased]
 
 ### Added
+- suicide command
 
 ### Changed
+- internal: no longer uses lamp
 
 ### Removed
 

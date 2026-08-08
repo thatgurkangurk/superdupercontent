@@ -223,16 +223,6 @@ dependencies {
     implementation("com.tterrag.registrate:Registrate:${project.extra["registrate_version"]}")?.let { jarJar(it) }
     implementation("thedarkcolour:kotlinforforge-neoforge:5.11.0")
     implementation("net.kyori:adventure-platform-neoforge:6.0.0")?.let { jarJar(it) }
-    implementation("io.github.revxrsal:lamp.common:4.0.0-rc.14")?.let {
-        jarJar(it)
-        "additionalRuntimeClasspath"(it)
-    }
-    implementation("io.github.revxrsal:lamp.brigadier:4.0.0-rc.14")?.let {
-        jarJar(it)
-        "additionalRuntimeClasspath"(it)
-    }
-
-    compileOnly("net.luckperms:api:5.4")
 
     localRuntime("me.djtheredstoner:DevAuth-neoforge:1.2.2")
     localRuntime("maven.modrinth:jei:YAcQ6elZ")

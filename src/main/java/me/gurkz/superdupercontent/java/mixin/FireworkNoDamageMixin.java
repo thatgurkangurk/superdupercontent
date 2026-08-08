@@ -1,0 +1,27 @@
+/*
+ * Copyright 2026 Gurkan
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+package me.gurkz.superdupercontent.java.mixin;
+
+import net.minecraft.world.entity.projectile.FireworkRocketEntity;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+@Mixin(FireworkRocketEntity.class)
+public abstract class FireworkNoDamageMixin {
+    @Inject(method = "dealExplosionDamage", at = @At("HEAD"), cancellable = true)
+    private void superdupercontent$cancelFireworkDamage(CallbackInfo ci) {
+        FireworkRocketEntity firework = (FireworkRocketEntity) (Object) this;
+
+        if (firework.getTags().contains("superdupercontent:no_damage")) {
+            ci.cancel();
+        }
+    }
+}

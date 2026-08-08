@@ -10,11 +10,19 @@ package me.gurkz.superdupercontent.command
 
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import me.gurkz.superdupercontent.PermissionNodes
 import me.gurkz.superdupercontent.SuperDuperContent
 import me.gurkz.superdupercontent.util.Adventure
+import me.gurkz.superdupercontent.util.FireworkUtil
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
+import net.minecraft.core.registries.Registries
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.level.GameType
+import net.neoforged.neoforge.server.permission.PermissionAPI
 
 object ModCommands {
     val superDuperContentCommand: LiteralArgumentBuilder<CommandSourceStack> = Commands.literal("super-duper-content")
@@ -36,7 +44,56 @@ object ModCommands {
             return@executes 0
         } }
 
+    val suicideDamageType = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(
+        SuperDuperContent.MOD_ID, "suicide"))
+
+    val suicideCommand: LiteralArgumentBuilder<CommandSourceStack> = Commands.literal("suicide")
+        .requires { source ->
+            val player = source.player ?: return@requires true
+
+            PermissionAPI.getPermission(player, PermissionNodes.SUICIDE_COMMAND)
+        }
+        .executes { context -> run {
+            val mm = MiniMessage.miniMessage()
+
+            val audience = Adventure.audience(context.source)
+
+            val player = context.source.player
+
+            if (player == null) {
+                audience.sendFailure(mm.deserialize("only players can run /suicide"))
+                return@executes 1
+            }
+
+            if (player.gameMode.gameModeForPlayer === GameType.CREATIVE) {
+                audience.sendFailure(mm.deserialize("only players can in survival run /suicide"))
+                return@executes 1
+            }
+
+            val damageSource = DamageSource(
+                player.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(suicideDamageType)
+            )
+
+            val pos = player.position()
+
+            FireworkUtil.summonFirework(
+                pos,
+                context.source.level,
+                FireworkUtil.createColour(0, 255, 0),
+                FireworkUtil.createColour(255, 0, 0),
+                2,
+                false
+            )
+
+            player.hurt(damageSource, 20.0f)
+
+            audience.sendSuccess(mm.deserialize("<green>committed suicide</green>"), false)
+
+            return@executes 0
+        } }
+
     fun registerCommands(dispatcher: CommandDispatcher<CommandSourceStack>) {
         dispatcher.register(superDuperContentCommand)
+        dispatcher.register(suicideCommand)
     }
 }
