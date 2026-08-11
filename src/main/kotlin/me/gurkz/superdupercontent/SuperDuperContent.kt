@@ -9,7 +9,10 @@
 package me.gurkz.superdupercontent
 
 import com.tterrag.registrate.Registrate
+import me.fzzyhmstrs.fzzy_config.api.ConfigApi
+import me.fzzyhmstrs.fzzy_config.api.RegisterType
 import me.gurkz.superdupercontent.command.ModCommands
+import me.gurkz.superdupercontent.config.SuperDuperConfig
 import me.gurkz.superdupercontent.data.DataAttachments
 import me.gurkz.superdupercontent.event.SuperDuperPermissionsEvents
 import me.gurkz.superdupercontent.item.ModItems
@@ -36,6 +39,7 @@ object SuperDuperContent {
     val VERSION: String by lazy {
         ModList.get().getModContainerById(MOD_ID).map { container -> container.modInfo.version.toString() }.orElse("UNKNOWN") ?: "UNKNOWN"
     }
+    val config = ConfigApi.registerAndLoadConfig(::SuperDuperConfig, RegisterType.BOTH)
 
     @JvmStatic
     @JvmName("registrate")

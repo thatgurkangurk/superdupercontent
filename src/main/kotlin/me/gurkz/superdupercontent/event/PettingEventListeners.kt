@@ -8,6 +8,7 @@
 
 package me.gurkz.superdupercontent.event
 
+import me.gurkz.superdupercontent.SuperDuperContent
 import me.gurkz.superdupercontent.SuperDuperContent.MOD_ID
 import net.neoforged.fml.common.EventBusSubscriber
 import me.gurkz.superdupercontent.data.DataAttachments.NEXT_PET_TIME
@@ -22,7 +23,6 @@ import net.minecraft.world.entity.animal.Cat
 import net.minecraft.world.entity.animal.Wolf
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
-import java.util.concurrent.TimeUnit
 
 @EventBusSubscriber(modid = MOD_ID)
 object PettingEventListeners {
@@ -52,15 +52,16 @@ object PettingEventListeners {
     }
 
     private fun handlePetPetting(entity: TamableAnimal, level: ServerLevel): Boolean {
-        val currentTime = System.currentTimeMillis()
-        val nextPetTime = entity.getData(NEXT_PET_TIME) ?: 0L
+        val currentTick = level.gameTime
+        val nextPetTick = entity.getData(NEXT_PET_TIME) ?: 0L
 
-        if (currentTime < nextPetTime) {
+        if (currentTick < nextPetTick) {
             return false
         }
 
-        val cooldownMs = TimeUnit.SECONDS.toMillis(5)
-        entity.setData(NEXT_PET_TIME, currentTime + cooldownMs)
+        // 1 second = 20 ticks
+        val cooldownTicks = SuperDuperContent.config.pettingCooldownSeconds * 20L
+        entity.setData(NEXT_PET_TIME, currentTick + cooldownTicks)
 
         level.sendParticles(
             ParticleTypes.HEART,

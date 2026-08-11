@@ -39,6 +39,14 @@ repositories {
         }
     }
     maven { url = uri("https://www.jitpack.io") }
+    maven {
+        name = "FzzyMaven"
+        url = uri("https://maven.fzzyhmstrs.me/")
+        content {
+            includeGroup("me.fzzyhmstrs")
+        }
+    }
+
 }
 
 base {
@@ -224,6 +232,7 @@ dependencies {
     implementation("thedarkcolour:kotlinforforge-neoforge:5.11.0")
     implementation("net.kyori:adventure-platform-neoforge:6.0.0")?.let { jarJar(it) }
     implementation("maven.modrinth:jade:${project.extra["jade_version"]}")
+    implementation("me.fzzyhmstrs:fzzy_config:${project.extra["fzzy_config_version"]}")
 
     localRuntime("me.djtheredstoner:DevAuth-neoforge:1.2.2")
     localRuntime("maven.modrinth:jei:YAcQ6elZ")

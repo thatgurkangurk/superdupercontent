@@ -14,6 +14,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.ByteBufCodecs
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.entity.TamableAnimal
 import snownee.jade.api.EntityAccessor
 import snownee.jade.api.StreamServerDataProvider
 
@@ -21,14 +22,10 @@ object PetCooldownServerProvider : StreamServerDataProvider<EntityAccessor, Long
     override fun getUid(): ResourceLocation = SuperDuperContent.id("pet_cooldown")
 
     override fun streamData(accessor: EntityAccessor): Long? {
-        val entity = accessor.entity
-        val nextPetTime = entity.getData(DataAttachments.NEXT_PET_TIME) ?: 0L
+        val entity = accessor.entity as? TamableAnimal ?: return null
+        if (!entity.isTame) return null
 
-        if (nextPetTime > 0L) {
-            return nextPetTime
-        }
-
-        return null
+        return entity.getData(DataAttachments.NEXT_PET_TIME) ?: 0L
     }
 
     override fun streamCodec(): StreamCodec<RegistryFriendlyByteBuf, Long> {
