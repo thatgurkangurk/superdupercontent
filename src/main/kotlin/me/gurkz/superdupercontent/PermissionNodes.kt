@@ -25,5 +25,5 @@ object PermissionNodes {
         )
     }
 
-    val SUICIDE_COMMAND = createNode("command.suicide", requiredLevel = 2)
+    val SUICIDE_COMMAND = createNode("command.suicide", requiredLevel = 0)
 }

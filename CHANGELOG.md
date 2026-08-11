@@ -5,6 +5,7 @@
 ### Added
 
 ### Changed
+- set suicide command default permission level to 0
 
 ### Removed
 
