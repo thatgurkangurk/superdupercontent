@@ -97,11 +97,11 @@ ordering="NONE"
 side="BOTH"
 
 [[dependencies.${mod_id}]]
-modId="luckperms"
-type="optional"
-versionRange="[5.4,)"
-ordering="AFTER"
-side="SERVER"
+modId="fzzy_config"
+type="required"
+versionRange="[${fzzy_config_version},)"
+ordering="NONE"
+side="BOTH"
 
 
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares

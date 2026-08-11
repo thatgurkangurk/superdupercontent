@@ -89,7 +89,7 @@ publishMods {
         projectId.set("mgakxqwY")
         minecraftVersions.add(project.extra["minecraft_version"]!! as String)
 
-        requires("kotlin-for-forge")
+        requires("kotlin-for-forge", "fzzy-config")
     }
 
     github {
@@ -232,7 +232,7 @@ dependencies {
     implementation("thedarkcolour:kotlinforforge-neoforge:5.11.0")
     implementation("net.kyori:adventure-platform-neoforge:6.0.0")?.let { jarJar(it) }
     implementation("maven.modrinth:jade:${project.extra["jade_version"]}")
-    implementation("me.fzzyhmstrs:fzzy_config:${project.extra["fzzy_config_version"]}")
+    implementation("me.fzzyhmstrs:fzzy_config:${project.extra["fzzy_config_version"]}+1.21+neoforge")
 
     localRuntime("me.djtheredstoner:DevAuth-neoforge:1.2.2")
     localRuntime("maven.modrinth:jei:YAcQ6elZ")
@@ -252,7 +252,8 @@ val generateModMetadata = tasks.register<ProcessResources>("generateModMetadata"
         "mod_id" to project.extra["mod_id"],
         "mod_name" to project.extra["mod_name"],
         "mod_license" to project.extra["mod_license"],
-        "mod_version" to project.extra["mod_version"]
+        "mod_version" to project.extra["mod_version"],
+        "fzzy_config_version" to project.extra["fzzy_config_version"]
     )
 
     inputs.properties(replaceProperties)
