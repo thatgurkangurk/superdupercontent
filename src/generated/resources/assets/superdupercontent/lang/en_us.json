@@ -1,4 +1,5 @@
 {
+  "config.jade.plugin_superdupercontent.pet_cooldown": "Pet Cooldown",
   "death.attack.suicide": "%1$s committed suicide",
   "item.superdupercontent.silencer_stick": "Silencer Stick"
 }

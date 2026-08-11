@@ -223,12 +223,13 @@ dependencies {
     implementation("com.tterrag.registrate:Registrate:${project.extra["registrate_version"]}")?.let { jarJar(it) }
     implementation("thedarkcolour:kotlinforforge-neoforge:5.11.0")
     implementation("net.kyori:adventure-platform-neoforge:6.0.0")?.let { jarJar(it) }
+    implementation("maven.modrinth:jade:${project.extra["jade_version"]}")
 
     localRuntime("me.djtheredstoner:DevAuth-neoforge:1.2.2")
     localRuntime("maven.modrinth:jei:YAcQ6elZ")
     localRuntime("maven.modrinth:sodium:Pb3OXVqC")
     localRuntime("maven.modrinth:resource-gamma-utils:Nx6kXJFH")
-    localRuntime("maven.modrinth:luckperms:dKAPoPGd") //
+    localRuntime("maven.modrinth:luckperms:dKAPoPGd")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

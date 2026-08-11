@@ -10,9 +10,12 @@ package me.gurkz.superdupercontent
 
 import com.tterrag.registrate.Registrate
 import me.gurkz.superdupercontent.command.ModCommands
+import me.gurkz.superdupercontent.data.DataAttachments
 import me.gurkz.superdupercontent.event.SuperDuperPermissionsEvents
 import me.gurkz.superdupercontent.item.ModItems
 import me.gurkz.superdupercontent.util.Adventure
+import net.kyori.adventure.text.minimessage.MiniMessage
+import net.minecraft.resources.ResourceLocation
 import net.neoforged.fml.ModList
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent
@@ -24,7 +27,6 @@ import net.neoforged.neoforge.event.server.ServerStoppedEvent
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
-
 
 @Mod(SuperDuperContent.MOD_ID)
 object SuperDuperContent {
@@ -39,9 +41,13 @@ object SuperDuperContent {
     @JvmName("registrate")
     internal fun registrate() = REGISTRATE
 
+    internal val mm = MiniMessage.miniMessage()
+
     init {
         REGISTRATE.addRawLang("death.attack.suicide", "%1\$s committed suicide")
+        REGISTRATE.addRawLang("config.jade.plugin_superdupercontent.pet_cooldown", "Pet Cooldown")
 
+        DataAttachments.register(MOD_BUS)
         ModItems.register()
         MOD_BUS.addListener(::onCommonSetup)
         NeoForge.EVENT_BUS.addListener(::onCommandRegistration)
@@ -64,4 +70,6 @@ object SuperDuperContent {
     fun onCommandRegistration(event: RegisterCommandsEvent) {
         ModCommands.registerCommands(event.dispatcher)
     }
+
+    fun id(path: String) = ResourceLocation.fromNamespaceAndPath(MOD_ID, path)
 }

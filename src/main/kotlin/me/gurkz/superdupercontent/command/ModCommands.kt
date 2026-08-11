@@ -54,19 +54,17 @@ object ModCommands {
             PermissionAPI.getPermission(player, PermissionNodes.SUICIDE_COMMAND)
         }
         .executes { context -> run {
-            val mm = MiniMessage.miniMessage()
-
             val audience = Adventure.audience(context.source)
 
             val player = context.source.player
 
             if (player == null) {
-                audience.sendFailure(mm.deserialize("only players can run /suicide"))
+                audience.sendFailure(SuperDuperContent.mm.deserialize("only players can run /suicide"))
                 return@executes 1
             }
 
             if (player.gameMode.gameModeForPlayer === GameType.CREATIVE) {
-                audience.sendFailure(mm.deserialize("only players can in survival run /suicide"))
+                audience.sendFailure(SuperDuperContent.mm.deserialize("only players can in survival run /suicide"))
                 return@executes 1
             }
 
@@ -87,7 +85,7 @@ object ModCommands {
 
             player.hurt(damageSource, 20.0f)
 
-            audience.sendSuccess(mm.deserialize("<green>committed suicide</green>"), false)
+            audience.sendSuccess(SuperDuperContent.mm.deserialize("<green>committed suicide</green>"), false)
 
             return@executes 0
         } }

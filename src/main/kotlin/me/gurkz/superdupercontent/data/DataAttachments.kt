@@ -1,0 +1,30 @@
+/*
+ * Copyright 2026 Gurkan
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+package me.gurkz.superdupercontent.data
+
+import com.mojang.serialization.Codec
+import me.gurkz.superdupercontent.SuperDuperContent
+import net.minecraft.network.codec.ByteBufCodecs
+import net.neoforged.bus.api.IEventBus
+import net.neoforged.neoforge.attachment.AttachmentType
+import net.neoforged.neoforge.registries.DeferredRegister
+import net.neoforged.neoforge.registries.NeoForgeRegistries
+import java.util.function.Supplier
+
+object DataAttachments {
+    val attachmentTypes: DeferredRegister<AttachmentType<*>> = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, SuperDuperContent.MOD_ID)
+
+    val NEXT_PET_TIME: Supplier<AttachmentType<Long>> = attachmentTypes.register("next_pet_time") { _ ->
+        AttachmentType.builder(Supplier { 0L }).serialize(Codec.LONG).sync(ByteBufCodecs.VAR_LONG).build()
+    }
+
+    fun register(eventBus: IEventBus) {
+        attachmentTypes.register(eventBus)
+    }
+}
