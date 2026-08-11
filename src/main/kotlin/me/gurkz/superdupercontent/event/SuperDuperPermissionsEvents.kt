@@ -17,6 +17,6 @@ object SuperDuperPermissionsEvents {
     @SubscribeEvent
     fun registerPermissions(event: PermissionGatherEvent.Nodes) {
         SuperDuperContent.LOGGER.info("registering permission nodes")
-        event.addNodes(PermissionNodes.SUICIDE_COMMAND)
+        event.addNodes(PermissionNodes.SUICIDE_COMMAND, PermissionNodes.LAST_DEATH_COMMAND)
     }
 }

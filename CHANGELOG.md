@@ -4,6 +4,7 @@
 
 ### Added
 - you can now pet your pets
+- `/lastdeath` command
 
 ### Changed
 - set suicide command default permission level to 0

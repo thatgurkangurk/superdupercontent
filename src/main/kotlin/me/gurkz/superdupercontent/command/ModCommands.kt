@@ -12,14 +12,17 @@ import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import me.gurkz.superdupercontent.PermissionNodes
 import me.gurkz.superdupercontent.SuperDuperContent
+import me.gurkz.superdupercontent.data.DataAttachments
 import me.gurkz.superdupercontent.util.Adventure
 import me.gurkz.superdupercontent.util.FireworkUtil
 import net.kyori.adventure.text.minimessage.MiniMessage
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.level.GameType
 import net.neoforged.neoforge.server.permission.PermissionAPI
@@ -90,8 +93,58 @@ object ModCommands {
             return@executes 0
         } }
 
+    val lastDeathCommand: LiteralArgumentBuilder<CommandSourceStack> = Commands.literal("lastdeath")
+        .requires { source ->
+            val player = source.player ?: return@requires true
+
+            PermissionAPI.getPermission(player, PermissionNodes.LAST_DEATH_COMMAND)
+        }
+        .executes { context -> run {
+            val audience = Adventure.audience(context.source)
+
+            val player = context.source.player
+
+            if (player == null) {
+                audience.sendFailure(SuperDuperContent.mm.deserialize("only players can run /lastdeath"))
+                return@executes 1
+            }
+
+            val deathData = player.getData(DataAttachments.LAST_DEATH)
+
+            if (deathData == null) {
+                audience.sendFailure(SuperDuperContent.mm.deserialize("you don't have a death location"))
+                return@executes 1
+            }
+
+            val targetLevel: ServerLevel? = player.server.getLevel(deathData.dimension)
+
+            if (targetLevel == null) {
+                audience.sendFailure(SuperDuperContent.mm.deserialize(
+                    "dimension <dimension> no longer exists!",
+                    Placeholder.unparsed("dimension", deathData.dimension.location().toString())
+                ))
+                return@executes 0
+            }
+
+            val pos = deathData.pos
+
+            player.teleportTo(
+                targetLevel,
+                pos.x + 0.5,
+                pos.y.toDouble(),
+                pos.z + 0.5,
+                deathData.yRot,
+                deathData.xRot
+            )
+
+            audience.sendSuccess(SuperDuperContent.mm.deserialize("<green>woosh</green>"), false)
+
+            return@executes 0
+        } }
+
     fun registerCommands(dispatcher: CommandDispatcher<CommandSourceStack>) {
         dispatcher.register(superDuperContentCommand)
         dispatcher.register(suicideCommand)
+        dispatcher.register(lastDeathCommand)
     }
 }

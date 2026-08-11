@@ -10,7 +10,9 @@ package me.gurkz.superdupercontent.data
 
 import com.mojang.serialization.Codec
 import me.gurkz.superdupercontent.SuperDuperContent
+import net.minecraft.core.BlockPos
 import net.minecraft.network.codec.ByteBufCodecs
+import net.minecraft.world.level.Level
 import net.neoforged.bus.api.IEventBus
 import net.neoforged.neoforge.attachment.AttachmentType
 import net.neoforged.neoforge.registries.DeferredRegister
@@ -22,6 +24,13 @@ object DataAttachments {
 
     val NEXT_PET_TIME: Supplier<AttachmentType<Long>> = attachmentTypes.register("next_pet_time") { _ ->
         AttachmentType.builder(Supplier { 0L }).serialize(Codec.LONG).sync(ByteBufCodecs.VAR_LONG).build()
+    }
+
+    val LAST_DEATH: Supplier<AttachmentType<DeathData>> = attachmentTypes.register("last_death") { ->
+        AttachmentType.builder { -> DeathData(BlockPos.ZERO, Level.OVERWORLD) }
+            .serialize(DeathData.CODEC)
+            .copyOnDeath()
+            .build()
     }
 
     fun register(eventBus: IEventBus) {
