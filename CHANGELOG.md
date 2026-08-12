@@ -5,6 +5,7 @@
 ### Added
 - you can now pet your pets
 - `/lastdeath` command
+- `/toast` command (`superdupercontent.command.toast`)
 
 ### Changed
 - set suicide command default permission level to 0

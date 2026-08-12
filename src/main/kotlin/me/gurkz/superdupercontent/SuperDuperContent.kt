@@ -14,6 +14,7 @@ import me.fzzyhmstrs.fzzy_config.api.RegisterType
 import me.gurkz.superdupercontent.config.SuperDuperConfig
 import me.gurkz.superdupercontent.data.DataAttachments
 import me.gurkz.superdupercontent.item.ModItems
+import me.gurkz.superdupercontent.network.SuperDuperNetworking
 import me.gurkz.superdupercontent.util.Adventure
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.minecraft.resources.ResourceLocation
@@ -49,6 +50,8 @@ object SuperDuperContent {
 
         DataAttachments.register(MOD_BUS)
         ModItems.register()
+
+        SuperDuperNetworking.initialise()
 
         NeoForge.EVENT_BUS.addListener { e: ServerStartingEvent -> Adventure.register(e) }
         NeoForge.EVENT_BUS.addListener { e: ServerStoppedEvent -> Adventure.deregister(e) }

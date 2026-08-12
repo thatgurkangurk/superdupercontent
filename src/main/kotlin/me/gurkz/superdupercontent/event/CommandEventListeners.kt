@@ -10,6 +10,7 @@ package me.gurkz.superdupercontent.event
 
 import me.gurkz.superdupercontent.SuperDuperContent.MOD_ID
 import me.gurkz.superdupercontent.command.lastDeathCommand
+import me.gurkz.superdupercontent.command.sendToastCommand
 import me.gurkz.superdupercontent.command.suicideCommand
 import me.gurkz.superdupercontent.command.superDuperContentCommand
 import net.neoforged.bus.api.SubscribeEvent
@@ -23,5 +24,6 @@ object CommandEventListeners {
         event.dispatcher.register(lastDeathCommand)
         event.dispatcher.register(superDuperContentCommand)
         event.dispatcher.register(suicideCommand)
+        event.dispatcher.register(sendToastCommand)
     }
 }
