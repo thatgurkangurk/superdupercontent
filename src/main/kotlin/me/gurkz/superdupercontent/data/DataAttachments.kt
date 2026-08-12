@@ -9,6 +9,7 @@
 package me.gurkz.superdupercontent.data
 
 import com.mojang.serialization.Codec
+import java.util.function.Supplier
 import me.gurkz.superdupercontent.SuperDuperContent
 import net.minecraft.core.BlockPos
 import net.minecraft.network.codec.ByteBufCodecs
@@ -17,21 +18,26 @@ import net.neoforged.bus.api.IEventBus
 import net.neoforged.neoforge.attachment.AttachmentType
 import net.neoforged.neoforge.registries.DeferredRegister
 import net.neoforged.neoforge.registries.NeoForgeRegistries
-import java.util.function.Supplier
 
 object DataAttachments {
-    val attachmentTypes: DeferredRegister<AttachmentType<*>> = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, SuperDuperContent.MOD_ID)
+    val attachmentTypes: DeferredRegister<AttachmentType<*>> =
+        DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, SuperDuperContent.MOD_ID)
 
-    val NEXT_PET_TIME: Supplier<AttachmentType<Long>> = attachmentTypes.register("next_pet_time") { _ ->
-        AttachmentType.builder(Supplier { 0L }).serialize(Codec.LONG).sync(ByteBufCodecs.VAR_LONG).build()
-    }
+    val NEXT_PET_TIME: Supplier<AttachmentType<Long>> =
+        attachmentTypes.register("next_pet_time") { _ ->
+            AttachmentType.builder(Supplier { 0L })
+                .serialize(Codec.LONG)
+                .sync(ByteBufCodecs.VAR_LONG)
+                .build()
+        }
 
-    val LAST_DEATH: Supplier<AttachmentType<DeathData>> = attachmentTypes.register("last_death") { ->
-        AttachmentType.builder { -> DeathData(BlockPos.ZERO, Level.OVERWORLD) }
-            .serialize(DeathData.CODEC)
-            .copyOnDeath()
-            .build()
-    }
+    val LAST_DEATH: Supplier<AttachmentType<DeathData>> =
+        attachmentTypes.register("last_death") { ->
+            AttachmentType.builder { -> DeathData(BlockPos.ZERO, Level.OVERWORLD) }
+                .serialize(DeathData.CODEC)
+                .copyOnDeath()
+                .build()
+        }
 
     fun register(eventBus: IEventBus) {
         attachmentTypes.register(eventBus)

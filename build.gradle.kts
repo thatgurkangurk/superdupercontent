@@ -13,6 +13,7 @@ plugins {
     id("idea")
     id("me.modmuss50.mod-publish-plugin") version "1.1.0"
     id("org.jetbrains.changelog") version "2.5.0"
+    id("com.diffplug.spotless") version "8.9.0"
     kotlin("jvm") version "2.2.21"
 }
 
@@ -21,11 +22,14 @@ tasks.named<Wrapper>("wrapper").configure {
 }
 
 version = project.extra["mod_version"]!!
+
 group = project.extra["mod_group_id"]!!
 
 repositories {
     maven(url = uri("https://maven.ithundxr.dev/snapshots")) // Registrate
-    maven(url = uri("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")) // DevAuth (https://github.com/DJtheRedstoner/DevAuth)
+    maven(
+        url = uri("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
+    ) // DevAuth (https://github.com/DJtheRedstoner/DevAuth)
     maven(url = uri("https://thedarkcolour.github.io/KotlinForForge/")) {
         name = "Kotlin for Forge"
         content {
@@ -46,11 +50,33 @@ repositories {
             includeGroup("me.fzzyhmstrs")
         }
     }
-
 }
 
 base {
     archivesName.set(project.extra["mod_id"]!! as String)
+}
+
+spotless {
+    java {
+        target("src/*/java/**/*.java")
+
+        palantirJavaFormat()
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+
+    kotlin {
+        target("src/*/kotlin/**/*.kt")
+        ktfmt().kotlinlangStyle()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+
+    kotlinGradle {
+        target("*.gradle.kts")
+        ktfmt().kotlinlangStyle()
+    }
 }
 
 changelog {
@@ -65,14 +91,16 @@ changelog {
     lineSeparator = "\n"
     combinePreReleases = true
     sectionUrlBuilder =
-        ChangelogSectionUrlBuilder { repositoryUrl, currentVersion, previousVersion, isUnreleased -> "foo" }
+        ChangelogSectionUrlBuilder { repositoryUrl, currentVersion, previousVersion, isUnreleased ->
+            "foo"
+        }
     outputFile = file("release-note.txt")
 }
 
 fun getChangelog(version: String): String {
     return changelog.renderItem(
         changelog.get(version).withSummary(false),
-        Changelog.OutputType.MARKDOWN
+        Changelog.OutputType.MARKDOWN,
     )
 }
 
@@ -103,7 +131,8 @@ license {
     // Add a license header rule, at least one must be present.
     rule(file("codeformat/HEADER"))
 
-    // Exclude/include certain file types, defaults are provided to easily deal with Java/Kotlin projects.
+    // Exclude/include certain file types, defaults are provided to easily deal with Java/Kotlin
+    // projects.
     include("**/*.java") // Include Java files into the file resolution.
     include("**/*.kt") // Include Java files into the file resolution.
     exclude("**/*.properties") // Exclude properties files from the file resolution.
@@ -112,11 +141,11 @@ license {
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
 tasks.named<KotlinCompile>("compileKotlin").configure {
     compilerOptions.jvmTarget = JvmTarget.JVM_21
     compilerOptions.javaParameters = true
 }
-
 
 neoForge {
     version = project.extra["neo_version"]!! as String
@@ -130,7 +159,10 @@ neoForge {
         create("client") {
             client()
 
-            systemProperty("neoforge.enabledGameTestNamespaces", project.extra["mod_id"]!! as String)
+            systemProperty(
+                "neoforge.enabledGameTestNamespaces",
+                project.extra["mod_id"]!! as String,
+            )
 
             gameDirectory = project.file("run/client")
         }
@@ -138,28 +170,39 @@ neoForge {
         create("server") {
             server()
             programArgument("--nogui")
-            systemProperty("neoforge.enabledGameTestNamespaces", project.extra["mod_id"]!! as String)
+            systemProperty(
+                "neoforge.enabledGameTestNamespaces",
+                project.extra["mod_id"]!! as String,
+            )
             gameDirectory = project.file("run/server")
         }
 
         // This run config launches GameTestServer and runs all registered gametests, then exits.
         // By default, the server will crash when no gametests are provided.
-        // The gametest system is also enabled by default for other run configs under the /test command.
+        // The gametest system is also enabled by default for other run configs under the /test
+        // command.
         create("gameTestServer") {
             type = "gameTestServer"
-            systemProperty("neoforge.enabledGameTestNamespaces", project.extra["mod_id"]!! as String)
+            systemProperty(
+                "neoforge.enabledGameTestNamespaces",
+                project.extra["mod_id"]!! as String,
+            )
         }
 
         create("data") {
             data()
             gameDirectory = project.file("run/data")
 
-            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+            // Specify the modid for data generation, where to output the resulting resource, and
+            // where to look for existing resources.
             programArguments.addAll(
-                "--mod", property("mod_id") as String,
+                "--mod",
+                property("mod_id") as String,
                 "--all",
-                "--output", file("src/generated/resources").absolutePath,
-                "--existing", file("src/main/resources").absolutePath
+                "--output",
+                file("src/generated/resources").absolutePath,
+                "--existing",
+                file("src/main/resources").absolutePath,
             )
         }
 
@@ -174,7 +217,8 @@ neoForge {
 
             // Recommended logging level for the console
             // You can set various levels here.
-            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
+            // Please read:
+            // https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
             logLevel = org.slf4j.event.Level.DEBUG
         }
     }
@@ -189,6 +233,7 @@ neoForge {
         }
     }
 }
+
 // Include resources generated by data generators.
 sourceSets.main.get().resources {
     srcDir("src/generated/resources")
@@ -204,13 +249,13 @@ configurations {
     runtimeClasspath.get().extendsFrom(localRuntime)
 }
 
-
 dependencies {
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
     // compileOnly "mezz.jei:jei-${mc_version}-neoforge-api:${jei_version}"
-    // We add the full version to localRuntime, not runtimeOnly, so that we do not publish a dependency on it
+    // We add the full version to localRuntime, not runtimeOnly, so that we do not publish a
+    // dependency on it
     // localRuntime "mezz.jei:jei-${mc_version}-neoforge:${jei_version}"
 
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
@@ -228,11 +273,14 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
-    implementation("com.tterrag.registrate:Registrate:${project.extra["registrate_version"]}")?.let { jarJar(it) }
+    implementation("com.tterrag.registrate:Registrate:${project.extra["registrate_version"]}")
+        ?.let { jarJar(it) }
     implementation("thedarkcolour:kotlinforforge-neoforge:5.11.0")
     implementation("net.kyori:adventure-platform-neoforge:6.0.0")?.let { jarJar(it) }
     implementation("maven.modrinth:jade:${project.extra["jade_version"]}")
-    implementation("me.fzzyhmstrs:fzzy_config:${project.extra["fzzy_config_version"]}+1.21+neoforge")
+    implementation(
+        "me.fzzyhmstrs:fzzy_config:${project.extra["fzzy_config_version"]}+1.21+neoforge"
+    )
 
     localRuntime("me.djtheredstoner:DevAuth-neoforge:1.2.2")
     localRuntime("maven.modrinth:jei:YAcQ6elZ")
@@ -243,30 +291,31 @@ dependencies {
 
 // This block of code expands all declared replace properties in the specified resource targets.
 // A missing property will result in an error. Properties are expanded using ${} Groovy notation.
-val generateModMetadata = tasks.register<ProcessResources>("generateModMetadata") {
-    val replaceProperties = mapOf(
-        "minecraft_version" to project.extra["minecraft_version"],
-        "minecraft_version_range" to project.extra["minecraft_version_range"],
-        "neo_version" to project.extra["neo_version"],
-        "loader_version_range" to project.extra["loader_version_range"],
-        "mod_id" to project.extra["mod_id"],
-        "mod_name" to project.extra["mod_name"],
-        "mod_license" to project.extra["mod_license"],
-        "mod_version" to project.extra["mod_version"],
-        "fzzy_config_version" to project.extra["fzzy_config_version"]
-    )
+val generateModMetadata =
+    tasks.register<ProcessResources>("generateModMetadata") {
+        val replaceProperties =
+            mapOf(
+                "minecraft_version" to project.extra["minecraft_version"],
+                "minecraft_version_range" to project.extra["minecraft_version_range"],
+                "neo_version" to project.extra["neo_version"],
+                "loader_version_range" to project.extra["loader_version_range"],
+                "mod_id" to project.extra["mod_id"],
+                "mod_name" to project.extra["mod_name"],
+                "mod_license" to project.extra["mod_license"],
+                "mod_version" to project.extra["mod_version"],
+                "fzzy_config_version" to project.extra["fzzy_config_version"],
+            )
 
-    inputs.properties(replaceProperties)
-    expand(replaceProperties)
+        inputs.properties(replaceProperties)
+        expand(replaceProperties)
 
-    from("src/main/templates")
-    into("build/generated/sources/modMetadata")
-}
+        from("src/main/templates")
+        into("build/generated/sources/modMetadata")
+    }
 
 tasks.jar {
     from("LICENSE.md")
 }
-
 
 // Include the output of "generateModMetadata" as an input directory for the build
 // this works with both building through Gradle and the IDE.
@@ -290,11 +339,12 @@ publishing {
 }
 
 tasks.withType<JavaCompile>().configureEach {
-    options.encoding = "UTF-8"  // Use the UTF-8 charset for Java compilation
+    options.encoding = "UTF-8" // Use the UTF-8 charset for Java compilation
     options.compilerArgs.add("-parameters")
 }
 
-// IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
+// IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to
+// explicitly enable the behavior.
 idea {
     module {
         isDownloadSources = true

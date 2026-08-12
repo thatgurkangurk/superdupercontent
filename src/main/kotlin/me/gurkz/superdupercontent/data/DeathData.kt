@@ -19,16 +19,20 @@ data class DeathData(
     val pos: BlockPos,
     val dimension: ResourceKey<Level>,
     val yRot: Float = 0f,
-    val xRot: Float = 0f
+    val xRot: Float = 0f,
 ) {
     companion object {
         val CODEC: Codec<DeathData> = RecordCodecBuilder.create { instance ->
-            instance.group(
-                BlockPos.CODEC.fieldOf("pos").forGetter(DeathData::pos),
-                ResourceKey.codec(Registries.DIMENSION).fieldOf("dimension").forGetter(DeathData::dimension),
-                Codec.FLOAT.optionalFieldOf("yRot", 0f).forGetter(DeathData::yRot),
-                Codec.FLOAT.optionalFieldOf("xRot", 0f).forGetter(DeathData::xRot)
-            ).apply(instance, ::DeathData)
+            instance
+                .group(
+                    BlockPos.CODEC.fieldOf("pos").forGetter(DeathData::pos),
+                    ResourceKey.codec(Registries.DIMENSION)
+                        .fieldOf("dimension")
+                        .forGetter(DeathData::dimension),
+                    Codec.FLOAT.optionalFieldOf("yRot", 0f).forGetter(DeathData::yRot),
+                    Codec.FLOAT.optionalFieldOf("xRot", 0f).forGetter(DeathData::xRot),
+                )
+                .apply(instance, ::DeathData)
         }
     }
 }

@@ -11,20 +11,15 @@ package me.gurkz.superdupercontent
 import com.tterrag.registrate.Registrate
 import me.fzzyhmstrs.fzzy_config.api.ConfigApi
 import me.fzzyhmstrs.fzzy_config.api.RegisterType
-import me.gurkz.superdupercontent.command.ModCommands
 import me.gurkz.superdupercontent.config.SuperDuperConfig
 import me.gurkz.superdupercontent.data.DataAttachments
-import me.gurkz.superdupercontent.event.SuperDuperPermissionsEvents
 import me.gurkz.superdupercontent.item.ModItems
 import me.gurkz.superdupercontent.util.Adventure
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.minecraft.resources.ResourceLocation
 import net.neoforged.fml.ModList
 import net.neoforged.fml.common.Mod
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent
 import net.neoforged.neoforge.common.NeoForge
-import net.neoforged.neoforge.event.RegisterCommandsEvent
-import net.neoforged.neoforge.event.server.ServerStartedEvent
 import net.neoforged.neoforge.event.server.ServerStartingEvent
 import net.neoforged.neoforge.event.server.ServerStoppedEvent
 import org.apache.logging.log4j.LogManager
@@ -37,13 +32,14 @@ object SuperDuperContent {
     val LOGGER: Logger = LogManager.getLogger(MOD_ID)
     private val REGISTRATE by lazy { Registrate.create(MOD_ID) }
     val VERSION: String by lazy {
-        ModList.get().getModContainerById(MOD_ID).map { container -> container.modInfo.version.toString() }.orElse("UNKNOWN") ?: "UNKNOWN"
+        ModList.get()
+            .getModContainerById(MOD_ID)
+            .map { container -> container.modInfo.version.toString() }
+            .orElse("UNKNOWN") ?: "UNKNOWN"
     }
     val config = ConfigApi.registerAndLoadConfig(::SuperDuperConfig, RegisterType.BOTH)
 
-    @JvmStatic
-    @JvmName("registrate")
-    internal fun registrate() = REGISTRATE
+    @JvmStatic @JvmName("registrate") internal fun registrate() = REGISTRATE
 
     internal val mm = MiniMessage.miniMessage()
 
@@ -53,27 +49,10 @@ object SuperDuperContent {
 
         DataAttachments.register(MOD_BUS)
         ModItems.register()
-        MOD_BUS.addListener(::onCommonSetup)
-        NeoForge.EVENT_BUS.addListener(::onCommandRegistration)
-        NeoForge.EVENT_BUS.addListener(::onServerSetup)
-
-        NeoForge.EVENT_BUS.register(SuperDuperPermissionsEvents)
 
         NeoForge.EVENT_BUS.addListener { e: ServerStartingEvent -> Adventure.register(e) }
         NeoForge.EVENT_BUS.addListener { e: ServerStoppedEvent -> Adventure.deregister(e) }
     }
 
-    fun onCommonSetup(event: FMLCommonSetupEvent) {
-
-    }
-
-    fun onServerSetup(event: ServerStartedEvent) {
-
-    }
-
-    fun onCommandRegistration(event: RegisterCommandsEvent) {
-        ModCommands.registerCommands(event.dispatcher)
-    }
-
-    fun id(path: String) = ResourceLocation.fromNamespaceAndPath(MOD_ID, path)
+    fun id(path: String): ResourceLocation = ResourceLocation.fromNamespaceAndPath(MOD_ID, path)
 }

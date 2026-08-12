@@ -17,17 +17,18 @@ import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent
 
 @EventBusSubscriber(modid = SuperDuperContent.MOD_ID)
-object DeathEventListener {
+object DeathEventListeners {
     @SubscribeEvent
     fun onPlayerDeath(event: LivingDeathEvent) {
         val player = event.entity as? ServerPlayer ?: return
 
-        val deathData = DeathData(
-            pos = player.blockPosition(),
-            dimension = player.level().dimension(),
-            yRot = player.yRot,
-            xRot = player.xRot
-        )
+        val deathData =
+            DeathData(
+                pos = player.blockPosition(),
+                dimension = player.level().dimension(),
+                yRot = player.yRot,
+                xRot = player.xRot,
+            )
 
         player.setData(DataAttachments.LAST_DEATH, deathData)
     }

@@ -10,7 +10,6 @@ package me.gurkz.superdupercontent.event
 
 import me.gurkz.superdupercontent.SuperDuperContent
 import me.gurkz.superdupercontent.SuperDuperContent.MOD_ID
-import net.neoforged.fml.common.EventBusSubscriber
 import me.gurkz.superdupercontent.data.DataAttachments.NEXT_PET_TIME
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.server.level.ServerLevel
@@ -22,6 +21,7 @@ import net.minecraft.world.entity.TamableAnimal
 import net.minecraft.world.entity.animal.Cat
 import net.minecraft.world.entity.animal.Wolf
 import net.neoforged.bus.api.SubscribeEvent
+import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
 
 @EventBusSubscriber(modid = MOD_ID)
@@ -65,15 +65,22 @@ object PettingEventListeners {
 
         level.sendParticles(
             ParticleTypes.HEART,
-            entity.x, entity.y + 0.5, entity.z,
-            3, 0.3, 0.3, 0.3, 0.0
+            entity.x,
+            entity.y + 0.5,
+            entity.z,
+            3,
+            0.3,
+            0.3,
+            0.3,
+            0.0,
         )
 
-        val soundEvent = when (entity) {
-            is Wolf -> SoundEvents.WOLF_WHINE
-            is Cat -> SoundEvents.CAT_PURREOW
-            else -> null
-        }
+        val soundEvent =
+            when (entity) {
+                is Wolf -> SoundEvents.WOLF_WHINE
+                is Cat -> SoundEvents.CAT_PURREOW
+                else -> null
+            }
 
         soundEvent?.let { sound ->
             level.playSound(
@@ -82,7 +89,7 @@ object PettingEventListeners {
                 sound,
                 SoundSource.NEUTRAL,
                 1.0f,
-                1.0f
+                1.0f,
             )
         }
 

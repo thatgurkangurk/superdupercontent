@@ -12,17 +12,24 @@ import net.neoforged.neoforge.server.permission.nodes.PermissionNode
 import net.neoforged.neoforge.server.permission.nodes.PermissionTypes
 
 object PermissionNodes {
+    private val _permissionNodes = mutableListOf<PermissionNode<*>>()
+    val permissionNodes: List<PermissionNode<*>>
+        get() = _permissionNodes
+
     private fun requiresLevel(level: Int) = PermissionNode.PermissionResolver { player, _, _ ->
-        level <= 0 || player != null && player.hasPermissions(level)
+        level <= 0 || player?.hasPermissions(level) == true
     }
 
     private fun createNode(nodeName: String, requiredLevel: Int = 2): PermissionNode<Boolean> {
-        return PermissionNode(
-            SuperDuperContent.MOD_ID,
-            nodeName,
-            PermissionTypes.BOOLEAN,
-            requiresLevel(requiredLevel)
-        )
+        val node =
+            PermissionNode(
+                SuperDuperContent.MOD_ID,
+                nodeName,
+                PermissionTypes.BOOLEAN,
+                requiresLevel(requiredLevel),
+            )
+        _permissionNodes.add(node)
+        return node
     }
 
     val SUICIDE_COMMAND = createNode("command.suicide", requiredLevel = 0)

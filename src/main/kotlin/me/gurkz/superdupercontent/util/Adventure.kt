@@ -15,8 +15,7 @@ import net.neoforged.neoforge.event.server.ServerStartingEvent
 import net.neoforged.neoforge.event.server.ServerStoppedEvent
 
 object Adventure {
-    @Volatile
-    private var adventure: MinecraftServerAudiences? = null
+    @Volatile private var adventure: MinecraftServerAudiences? = null
 
     fun adventure(): MinecraftServerAudiences {
         checkNotNull(this.adventure) { "Tried to access Adventure without a running server!" }

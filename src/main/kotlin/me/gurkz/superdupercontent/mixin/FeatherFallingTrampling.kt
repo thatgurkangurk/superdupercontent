@@ -18,14 +18,17 @@ import net.minecraft.world.level.Level
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 
 fun disableTramplingWithFeatherFalling(
-    level: Level, entity: Entity, ci: CallbackInfo
+    level: Level,
+    entity: Entity,
+    ci: CallbackInfo,
 ) {
     if (entity !is LivingEntity) return
 
-    val featherFalling = level
-        .registryAccess()
-        .lookupOrThrow(Registries.ENCHANTMENT)
-        .getOrThrow(Enchantments.FEATHER_FALLING)
+    val featherFalling =
+        level
+            .registryAccess()
+            .lookupOrThrow(Registries.ENCHANTMENT)
+            .getOrThrow(Enchantments.FEATHER_FALLING)
 
     val featherFallingLevel = EnchantmentHelper.getEnchantmentLevel(featherFalling, entity)
 

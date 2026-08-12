@@ -20,23 +20,27 @@ object ModItems {
     private val REGISTRATE = SuperDuperContent.registrate()
 
     @JvmStatic
-    val SILENCER_STICK = REGISTRATE.item("silencer_stick", ::SilencerStickItem)
-        .properties { properties -> properties.durability(32) }
-        .recipe { ctx, provider ->
-            run {
-                ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ctx.get())
-                    .pattern("W  ")
-                    .pattern(" A ")
-                    .pattern("  A")
-                    .define('A', Items.AMETHYST_SHARD)
-                    .define('W', ItemTags.WOOL)
-                    .unlockedBy("has_amethyst", RegistrateRecipeProvider.has(Items.AMETHYST_SHARD))
-                    .unlockedBy("has_wool", RegistrateRecipeProvider.has(ItemTags.WOOL))
-                    .save(provider)
+    val SILENCER_STICK =
+        REGISTRATE.item("silencer_stick", ::SilencerStickItem)
+            .properties { properties -> properties.durability(32) }
+            .recipe { ctx, provider ->
+                run {
+                    ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ctx.get())
+                        .pattern("W  ")
+                        .pattern(" A ")
+                        .pattern("  A")
+                        .define('A', Items.AMETHYST_SHARD)
+                        .define('W', ItemTags.WOOL)
+                        .unlockedBy(
+                            "has_amethyst",
+                            RegistrateRecipeProvider.has(Items.AMETHYST_SHARD),
+                        )
+                        .unlockedBy("has_wool", RegistrateRecipeProvider.has(ItemTags.WOOL))
+                        .save(provider)
+                }
             }
-        }
-        .model { ctx, provider -> provider.handheld(ctx) }
-        .register()
+            .model { ctx, provider -> provider.handheld(ctx) }
+            .register()
 
     fun register() {}
 }

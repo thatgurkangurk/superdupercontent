@@ -24,30 +24,40 @@ object FireworkUtil {
         return (red shl 16) or (green shl 8) or blue
     }
 
-    fun summonFirework(pos: Vec3, level: ServerLevel, colour: Int, fadeColour: Int, flightDuration: Int, damageEntities: Boolean = true) {
-        val explosion = FireworkExplosion(
-            FireworkExplosion.Shape.LARGE_BALL,
-            IntArrayList(intArrayOf(colour)),
-            IntArrayList(intArrayOf(fadeColour)),
-            true,
-            true
-        )
+    fun summonFirework(
+        pos: Vec3,
+        level: ServerLevel,
+        colour: Int,
+        fadeColour: Int,
+        flightDuration: Int,
+        damageEntities: Boolean = true,
+    ) {
+        val explosion =
+            FireworkExplosion(
+                FireworkExplosion.Shape.LARGE_BALL,
+                IntArrayList(intArrayOf(colour)),
+                IntArrayList(intArrayOf(fadeColour)),
+                true,
+                true,
+            )
 
-        val fireworks = Fireworks(
-            Mth.clamp(flightDuration, 0, 3),
-            listOf(explosion),
-        )
+        val fireworks =
+            Fireworks(
+                Mth.clamp(flightDuration, 0, 3),
+                listOf(explosion),
+            )
 
         val stack = ItemStack(Items.FIREWORK_ROCKET)
         stack.set(DataComponents.FIREWORKS, fireworks)
 
-        val rocket = FireworkRocketEntity(
-            level,
-            pos.x,
-            pos.y,
-            pos.z,
-            stack
-        )
+        val rocket =
+            FireworkRocketEntity(
+                level,
+                pos.x,
+                pos.y,
+                pos.z,
+                stack,
+            )
 
         if (!damageEntities) {
             rocket.addTag("superdupercontent:no_damage")

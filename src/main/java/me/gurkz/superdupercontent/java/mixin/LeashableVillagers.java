@@ -16,11 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractVillager.class)
 public abstract class LeashableVillagers {
-    @Inject(
-            method = "canBeLeashed",
-            at = @At("HEAD"),
-            cancellable = true
-    )
+    @Inject(method = "canBeLeashed", at = @At("HEAD"), cancellable = true)
     private void canBeLeashed(CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(true);
         cir.cancel();

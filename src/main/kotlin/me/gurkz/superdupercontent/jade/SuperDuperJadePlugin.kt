@@ -9,14 +9,17 @@
 package me.gurkz.superdupercontent.jade
 
 import me.gurkz.superdupercontent.jade.provider.PetCooldownServerProvider
-import snownee.jade.api.IWailaPlugin
 import net.minecraft.world.entity.TamableAnimal
 import snownee.jade.api.IWailaCommonRegistration
+import snownee.jade.api.IWailaPlugin
 import snownee.jade.api.WailaPlugin
 
 @WailaPlugin
 class SuperDuperJadePlugin : IWailaPlugin {
     override fun register(registration: IWailaCommonRegistration) {
-        registration.registerEntityDataProvider(PetCooldownServerProvider, TamableAnimal::class.java)
+        registration.registerEntityDataProvider(
+            PetCooldownServerProvider,
+            TamableAnimal::class.java,
+        )
     }
 }

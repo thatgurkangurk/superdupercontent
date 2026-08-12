@@ -26,7 +26,7 @@ class SilencerStickItem(properties: Properties) : Item(properties) {
         stack: ItemStack,
         entity: LivingEntity,
         user: Player,
-        usedHand: InteractionHand
+        usedHand: InteractionHand,
     ): InteractionResult {
         val level = user.level()
 
@@ -40,11 +40,13 @@ class SilencerStickItem(properties: Properties) : Item(properties) {
             val pos = entity.position()
             serverLevel.playSound(
                 null,
-                pos.x, pos.y, pos.z,
+                pos.x,
+                pos.y,
+                pos.z,
                 SoundEvents.AMETHYST_BLOCK_RESONATE,
                 SoundSource.AMBIENT,
                 0.8f,
-                2.0f
+                2.0f,
             )
 
             if (entity is Mob) {
@@ -61,7 +63,7 @@ class SilencerStickItem(properties: Properties) : Item(properties) {
         stack: ItemStack,
         player: Player,
         interactionTarget: LivingEntity,
-        usedHand: InteractionHand
+        usedHand: InteractionHand,
     ): InteractionResult {
         return this.silenceEntity(stack, interactionTarget, player, usedHand)
     }
