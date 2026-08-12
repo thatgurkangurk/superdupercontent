@@ -3,19 +3,27 @@
 ## [Unreleased]
 
 ### Added
-- you can now pet your pets
-- `/lastdeath` command
-- `/toast` command (`superdupercontent.command.toast`)
 
 ### Changed
-- set suicide command default permission level to 0
-- Adventure is no longer included in the mod (download from https://modrinth.com/mod/adventure-platform-mod)
 
 ### Removed
 
 ### Fixed
 
-## [0.2.0] - 2026-08-08
+## [0.3.0] - 2026-08-12
+
+### Added
+
+- you can now pet your pets
+- `/lastdeath` command
+- `/toast` command (`superdupercontent.command.toast`)
+
+### Changed
+
+- set suicide command default permission level to 0
+- Adventure is no longer included in the mod (download from https://modrinth.com/mod/adventure-platform-mod)
+
+## 0.2.0 - 2026-08-08
 
 ### Added
 
