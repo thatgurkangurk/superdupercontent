@@ -8,6 +8,7 @@
 
 ### Changed
 - set suicide command default permission level to 0
+- Adventure is no longer included in the mod (download from https://modrinth.com/mod/adventure-platform-mod)
 
 ### Removed
 

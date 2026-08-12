@@ -117,7 +117,7 @@ publishMods {
         projectId.set("mgakxqwY")
         minecraftVersions.add(project.extra["minecraft_version"]!! as String)
 
-        requires("kotlin-for-forge", "fzzy-config")
+        requires("kotlin-for-forge", "fzzy-config", "adventure-platform-mod")
     }
 
     github {
@@ -276,7 +276,7 @@ dependencies {
     implementation("com.tterrag.registrate:Registrate:${project.extra["registrate_version"]}")
         ?.let { jarJar(it) }
     implementation("thedarkcolour:kotlinforforge-neoforge:5.11.0")
-    implementation("net.kyori:adventure-platform-neoforge:6.0.0")?.let { jarJar(it) }
+    implementation("net.kyori:adventure-platform-neoforge:6.0.1")
     implementation("maven.modrinth:jade:${project.extra["jade_version"]}")
     implementation(
         "me.fzzyhmstrs:fzzy_config:${project.extra["fzzy_config_version"]}+1.21+neoforge"
