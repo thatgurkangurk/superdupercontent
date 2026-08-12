@@ -9,6 +9,7 @@
 package me.gurkz.superdupercontent.util
 
 import it.unimi.dsi.fastutil.ints.IntArrayList
+import me.gurkz.superdupercontent.data.DataAttachments
 import net.minecraft.core.component.DataComponents
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.Mth
@@ -60,7 +61,7 @@ object FireworkUtil {
             )
 
         if (!damageEntities) {
-            rocket.addTag("superdupercontent:no_damage")
+            rocket.setData(DataAttachments.NO_FIREWORK_DAMAGE, true)
         }
 
         level.addFreshEntity(rocket)

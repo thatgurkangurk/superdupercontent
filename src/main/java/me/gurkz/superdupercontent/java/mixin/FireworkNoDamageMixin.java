@@ -8,6 +8,7 @@
 
 package me.gurkz.superdupercontent.java.mixin;
 
+import me.gurkz.superdupercontent.data.DataAttachments;
 import net.minecraft.world.entity.projectile.FireworkRocketEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,7 +21,7 @@ public abstract class FireworkNoDamageMixin {
     private void superdupercontent$cancelFireworkDamage(CallbackInfo ci) {
         FireworkRocketEntity firework = (FireworkRocketEntity) (Object) this;
 
-        if (firework.getTags().contains("superdupercontent:no_damage")) {
+        if (firework.getData(DataAttachments.INSTANCE.getNO_FIREWORK_DAMAGE())) {
             ci.cancel();
         }
     }

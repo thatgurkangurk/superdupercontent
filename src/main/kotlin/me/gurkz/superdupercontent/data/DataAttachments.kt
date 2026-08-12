@@ -31,6 +31,11 @@ object DataAttachments {
                 .build()
         }
 
+    val NO_FIREWORK_DAMAGE: Supplier<AttachmentType<Boolean>> =
+        attachmentTypes.register("no_firework_damage") { _ ->
+            AttachmentType.builder(Supplier { false }).serialize(Codec.BOOL).build()
+        }
+
     val LAST_DEATH: Supplier<AttachmentType<DeathData>> =
         attachmentTypes.register("last_death") { ->
             AttachmentType.builder { -> DeathData(BlockPos.ZERO, Level.OVERWORLD) }
